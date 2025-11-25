@@ -1,0 +1,68 @@
+# set the name for the project
+name: prelab01
+
+services:
+  # Add your services here, default image is netsos/rhit-netsec:latest
+  #
+  # Make sure to sync volumes using the following.
+  # volumes:
+  #   - ./volumes:/volumes
+  #
+  # Run the config script.
+  # command:
+  #   bash -c "bash /volmes/check_config.sh && tail -f /dev/null"
+  #
+  hostA:
+    image: netsos/rhit-netsec:latest
+    container_name: hostA
+    hostname: hostA
+    working_dir: /volumes/
+    tty: true
+    cap_add:
+      - ALL
+    volumes:
+      - ./volumes:/volumes
+    networks:
+      local-net:
+        ipv4_address: 10.10.0.4
+    command: >
+      bash -c "
+      groupadd -g ${GID} netsec_group &&
+      useradd -m -u ${UID} -g netsec_group -s /bin/bash netsec &&
+      echo 'netsec ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers &&
+      bash /volumes/check_config.sh &&
+      cp /volumes/vimrc /home/netsec/.vimrc &&
+      tail -f /dev/null
+      "
+
+  hostB:
+    image: netsos/rhit-netsec:latest
+    container_name: hostB
+    hostname: hostB
+    working_dir: /volumes/
+    tty: true
+    cap_add:
+      - ALL
+    volumes:
+      - ./volumes:/volumes
+    networks:
+      local-net:
+        ipv4_address: 10.10.0.5
+    command: >
+      bash -c "
+      groupadd -g ${GID} netsec_group &&
+      useradd -m -u ${UID} -g netsec_group -s /bin/bash netsec &&
+      echo 'netsec ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers &&
+      bash /volumes/check_config.sh &&
+      cp /volumes/vimrc /home/netsec/.vimrc &&
+      tail -f /dev/null
+      "
+
+networks:
+  local-net:
+    name: local-net
+    # enable this if need the network isolated without Internet access.
+    # internal: true
+    ipam:
+      config:
+        - subnet: 10.10.0.0/24
