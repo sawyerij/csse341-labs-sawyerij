@@ -50,14 +50,14 @@ print_log "Generating connection scripts..."
 HOSTS=$(grep "container_name" docker-compose.yml | cut -d':' -f 2 | tr -d ' ')
 for hhost in ${HOSTS}
 do
-  cat > connect_"$hhost".sh << EOF
+  cat > connect_$hhost.sh << EOF
 #!/bin/bash
 docker container exec -it -u netsec ${hhost} /bin/bash
 EOF
 done
 
 # fix permissions
-chmod +x ./*.sh
+chmod +x *.sh
 
 print_log "Generating .env file"
 # remove the .env file, if any
