@@ -1,3 +1,6 @@
+# Packet Captures
+*.pcap
+
 # Prerequisites
 *.d
 
