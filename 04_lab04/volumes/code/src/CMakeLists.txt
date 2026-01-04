@@ -1,25 +1,42 @@
 # SPDX-License-Identifier: Unlicense
-add_library(util util.c)
-add_library(pcap_util pcap_util.c)
-add_library(print_arp print_arp.c)
 
-# set up the include directories correctly
-target_include_directories(util
-  PRIVATE ${PROJECT_SOURCE_DIR}/include
-  PRIVATE ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(pcap_util
-   PRIVATE ${PROJECT_SOURCE_DIR}/include
-   PUBLIC ${PROJECT_SOURCE_DIR}/src)
-target_include_directories(print_arp
-   PRIVATE ${PROJECT_SOURCE_DIR}/include
-   PUBLIC ${PROJECT_SOURCE_DIR}/src)
+set(NS_LIBS
+    pcap
+    util
+    pcap_util
+    print_arp
+    print_ip
+    print_icmp
+)
 
-target_compile_options(util PRIVATE -Wall -ggdb -Werror)
-target_compile_options(pcap_util PRIVATE -Wall -ggdb -Werror)
-target_compile_options(print_arp PRIVATE -Wall -ggdb -Werror)
+macro(ns_add_lib library)
+  if(${ARGC} GREATER 1)
+    add_library(${library} ${ARGN})
+    target_include_directories(${library}
+      PUBLIC ${PROJECT_SOURCE_DIR}/include)
+    target_compile_options(${library} PRIVATE -Wall -ggdb -Werror)
+  else()
+    message(FATAL_ERROR "macro ns_add_lib called incorrectly")
+  endif()
+endmacro(ns_add_lib)
+
+macro(ns_add_exec exec)
+  if(${ARGC} GREATER 1)
+    add_executable(${exec} ${ARGN})
+    target_link_libraries(${exec} PRIVATE ${NS_LIBS})
+    target_include_directories(${exec}
+     PRIVATE ${PROJECT_SOURCE_DIR}/include)
+  else()
+    message(FATAL_ERROR "macro ns_add_exec called incorrectly")
+  endif()
+endmacro(ns_add_exec)
+
+# add the libraries
+ns_add_lib(util util.c)
+ns_add_lib(pcap_util pcap_util.c)
+ns_add_lib(print_arp print_arp.c)
+ns_add_lib(print_ip print_ip.c)
+ns_add_lib(print_icmp print_icmp.c)
 
 # add the main executable
-add_executable(sniff main.c)
-target_link_libraries(sniff util pcap_util print_arp pcap)
-target_include_directories(sniff
-   PRIVATE ${PROJECT_SOURCE_DIR}/include)
+ns_add_exec(sniff main.c)
