@@ -349,3 +349,5 @@ tags
 n
 .env
 connect_*
+Sandbox/
+browse.vc.db
