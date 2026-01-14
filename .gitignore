@@ -349,5 +349,6 @@ tags
 n
 .env
 connect_*
+run_*.sh
 Sandbox/
 browse.vc.db
