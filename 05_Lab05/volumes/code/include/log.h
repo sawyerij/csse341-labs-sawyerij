@@ -51,4 +51,9 @@
          __LINE__, ##__VA_ARGS__)
 #endif
 
+#ifndef BANNER
+#define BANNER(title) printf("\n======== %s ========\n", title)
+#endif
+
+
 #endif /* log.h */

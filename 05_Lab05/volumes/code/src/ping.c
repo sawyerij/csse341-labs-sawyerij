@@ -38,6 +38,7 @@ main(int argc, char **argv)
   // Grab the pcap device for the interface.
   handle = find_pcap_dev("eth0", &addr, filter_expr);
 
+	BANNER("   BEGIN PACKET CAPTURE   ");
   // loop over packets until we are done
   while((rc = pcap_next_ex(handle, &hdr, &pkt)) >= 0) {
     eth_hdr = (struct ether_header *)pkt;
