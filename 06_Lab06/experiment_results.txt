@@ -1,0 +1,33 @@
+Forging Requests
+-----------------
+1. hostA arp cache empty
+	> Fills the entry
+
+2. hostA arp cache already populated
+	> Steals the place in the cache
+
+3. hostA arp cache incomplete
+	> Fills the incomplete entry
+
+Forging Replies
+----------------
+1. hostA arp cache empty
+	> Nothing happens
+
+2. hostA arp cache already populated
+	> Steals the arp entry
+
+3. hostA arp cache incomplete
+	> Fills the incomplete entry on hostA
+
+Forging Gratitude
+------------------
+1. hostA arp cache empty
+	> Nothing happens
+
+2. hostA arp cache already populated
+	> Steals the arp entry
+
+3. hostA arp cache incomplete
+	> Fills the incomplete entry on hostA
+
