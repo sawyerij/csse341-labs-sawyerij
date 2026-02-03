@@ -1,0 +1,6 @@
+[code/simple_loop.run] Running process with pid = 137...
+My file descriptors are the following:
+	 stdin:  0
+	 stdout: 1
+	 stderr: 2
+Hello, stderr!

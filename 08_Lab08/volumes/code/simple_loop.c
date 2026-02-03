@@ -13,6 +13,9 @@ main(int argc, char **argv)
   printf("\t stderr: %d\n", STDERR_FILENO);
   fflush(stdout);
 
+  // This is going to print to STDERR!
+  fprintf(stderr, "Hello, stderr!");
+
   while(1)
     ;
 

