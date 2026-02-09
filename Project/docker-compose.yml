@@ -14,6 +14,9 @@ services:
       - ./volumes:/volumes
     sysctls:
       - net.ipv4.ip_forward=0
+      - net.ipv6.conf.all.disable_ipv6=1
+    devices:
+      - /dev/net/tun:/dev/net/tun
     networks:
       c1-net:
         ipv4_address: 124.137.112.12
@@ -30,6 +33,7 @@ services:
       cp /volumes/vimrc /home/netsec/.vimrc &&
       ip route add 55.132.14.0/24 via 124.137.112.2 dev eth0 &&
       ip route add 178.196.10.0/24 via 124.137.112.2 dev eth0 &&
+      bash /volumes/create_client_tun.sh &&
       tail -f /dev/null
       "
 
@@ -45,6 +49,9 @@ services:
       - ./volumes:/volumes
     sysctls:
       - net.ipv4.ip_forward=0
+      - net.ipv6.conf.all.disable_ipv6=1
+    devices:
+      - /dev/net/tun:/dev/net/tun
     networks:
       c2-net:
         ipv4_address: 178.196.10.12
@@ -75,12 +82,15 @@ services:
     volumes:
       - ./volumes:/volumes
     sysctls:
-      - net.ipv4.ip_forward=0
+      - net.ipv4.ip_forward=1
+      - net.ipv6.conf.all.disable_ipv6=1
     networks:
       edge-net:
         ipv4_address: 55.132.14.5
       local-net:
         ipv4_address: 192.168.133.5
+    devices:
+      - /dev/net/tun:/dev/net/tun
     extra_hosts:
       - "client1:124.137.112.12"
       - "client2:178.196.10.12"
@@ -94,6 +104,7 @@ services:
       ip route add 178.196.10.0/24 via 55.132.14.2 dev eth0 &&
       ip route add 124.137.112.0/24 via 55.132.14.2 dev eth0 &&
       cp /volumes/vimrc /home/netsec/.vimrc &&
+      bash /volumes/create_server_tun.sh &&
       tail -f /dev/null
       "
 
@@ -122,6 +133,7 @@ services:
       bash /volumes/check_config.sh &&
       cp /volumes/vimrc /home/netsec/.vimrc &&
       sudo /volumes/setup_telnetd.sh &&
+      ip route add 192.168.133.128/25 via 192.168.133.5 dev eth0 &&
       tail -f /dev/null
       "
 
@@ -162,7 +174,14 @@ networks:
     name: local-net
     ipam:
       config:
-        - subnet: 192.168.133.0/24
+        - subnet: 192.168.133.0/25
+
+  vpn-net:
+    internal: true
+    name: vpn-net
+    ipam:
+      config:
+        - subnet: 192.168.133.128/25
 
   edge-net:
     name: edge-net
