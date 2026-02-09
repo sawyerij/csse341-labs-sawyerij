@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Unlicense
 //
 #include <net/ethernet.h>
+<<<<<<< HEAD
 #include <netinet/ether.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
@@ -29,5 +30,21 @@ parse_icmp(const u_char *pkt, struct pcap_pkthdr *hdr, pcap_t *handle)
   struct icmphdr *icmp =
       (struct icmphdr *)(pkt + sizeof(struct ethhdr) + sizeof(struct iphdr));
   print_icmp_hdr(icmp);
+=======
+#include <net/if_arp.h>
+#include <netinet/ether.h>
+
+#include "log.h"
+#include "print_icmp.h"
+#include "util.h"
+
+int
+parse_icmp(const u_char *pkt, struct pcap_pkthdr *hdr, pcap_t *handle)
+{
+  // TODO:
+  // ======
+  //  Add code here to print the content of an ICMPP packet.
+  //
+>>>>>>> 9908967e2f56d6e9f06789abfc1c269e58a635bb
   return 0;
 }

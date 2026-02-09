@@ -13,6 +13,7 @@
 #include "print_ip.h"
 #include "util.h"
 
+<<<<<<< HEAD
 #define BANNER(title) printf("\n======== %s ========\n", title)
 
 void
@@ -43,5 +44,14 @@ parse_ip(const u_char *pkt, struct pcap_pkthdr *hdr, pcap_t *handle)
     print_log("(%s) Got a packet of len %d that is not an IP packet!\n\n",
               fmt_ts(&hdr->ts), hdr->len);
   }
+=======
+int
+parse_ip(const u_char *pkt, struct pcap_pkthdr *hdr, pcap_t *handle)
+{
+  // TODO:
+  // ======
+  //  Add code here to print the content of an IP packet.
+
+>>>>>>> 9908967e2f56d6e9f06789abfc1c269e58a635bb
   return 0;
 }

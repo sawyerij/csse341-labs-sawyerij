@@ -3,6 +3,7 @@
 #include <netinet/if_ether.h>
 #include <netinet/ip.h>
 
+<<<<<<< HEAD
 #include "icmp_util.h"
 #include "ip_util.h"
 #include "log.h"
@@ -24,6 +25,9 @@ print_ip_hdr(struct iphdr *ip)
   printf("src ip: %s\n", ip_to_str(&ip->saddr));
   printf("dst ip: %s\n", ip_to_str(&ip->daddr));
 }
+=======
+#include "ip_util.h"
+>>>>>>> 9908967e2f56d6e9f06789abfc1c269e58a635bb
 
 void
 parse_ip(const u_char *pkt, const char *my_mac_addr, pcap_t *handle,
@@ -33,6 +37,7 @@ parse_ip(const u_char *pkt, const char *my_mac_addr, pcap_t *handle,
   uint8_t protocol;
   struct in_addr addr;
 
+<<<<<<< HEAD
   (void)protocol;
   (void)addr;
 
@@ -45,4 +50,24 @@ parse_ip(const u_char *pkt, const char *my_mac_addr, pcap_t *handle,
   } else {
     print_log("Dropped non-ICMP packet");
   }
+=======
+  // move forward to the ip header
+  iphdr    = (struct iphdr *)(pkt + sizeof(struct ether_header));
+  protocol = iphdr->protocol;
+
+  // TODO:
+  // =====
+  //  Remove these two lines once you're starting, they're here to silence the
+  //  compiler warnings.
+  (void)protocol;
+  (void)addr;
+
+  // TODO:
+  // =====
+  //  Add code here to call the function parse_icmp in case the IPv4 header
+  //  tells you that there is an IMCP header following it.
+  //
+  //  This should be fairly simply, just adapt your code from the previous lab.
+  //
+>>>>>>> 9908967e2f56d6e9f06789abfc1c269e58a635bb
 }
